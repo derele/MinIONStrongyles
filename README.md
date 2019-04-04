@@ -42,10 +42,10 @@ marker="16S" OR marker="CYTB" OR marker="ATP5B" OR marker="ACACA")
 ### Blast all reads agains those markers
 
 ```
-ele@harriet:/SAN/MinION/Strongyles/blast1$ blastn -task blastn -db
-/SAN/db/blastdb/ENA_marker/Nem_mito/Nem_mito_Ena.fasta -query
-../All_STR_chopped.fasta -max_target_seqs 1 -max_hsps 1 -evalue 1e-5
--num_threads 10 -outfmt 6 -out All_STR_chopped_vs_Nem_mito_ENA.blt
+ele@harriet:/SAN/MinION/Strongyles/blast1$ 
+blastn -task blastn -db/SAN/db/blastdb/ENA_marker/Nem_mito/Nem_mito_Ena.fasta -query \
+../All_STR_chopped.fasta -max_target_seqs 1 -max_hsps 1 -evalue 1e-5 -num_threads 10 \
+-outfmt 6 -out All_STR_chopped_vs_Nem_mito_ENA.blt
 ```
 
 ### Run the script select.R to select the sequences with a hit.

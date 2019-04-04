@@ -1,5 +1,8 @@
 # MinIONStrongyles: MinION Strongyle Nemabiomes
 
+
+## Data preparation
+
 We try to assemble mitochondrial genomes of Strongyles from MinION data. 
 
 Collect all sequences
@@ -10,13 +13,21 @@ Collect all sequences
 "*fastq_pass*" -name "*.fastq" | wc -l` an comparing the output with
 the above whitcards in an `ls -l`
 
+Convert to fasta
+
+`seqret -sequence All_STR.fastq -outseq All_STR.fasta`
 
 Sort out the barcodes and trim adapters
 
 `porechop -i All_STR.fasta -b All_STR_chopped_BC_dir`
 
+List how often the different barcodes were found in different original sample files 
+```
+for file in $(ls *.fasta); do echo $file; awk -F=  '/^>/ {print $8}' $file  | sort| uniq -c ; done
+```
 And again collate the sequences
 
+`cat All_STR_chopped_BC_dir/*.fasta > All_STR_chopped.fasta`
 
 ## 1. First BLAST: all reads against mitochondrial  marker sequences
 

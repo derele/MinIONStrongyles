@@ -23,6 +23,17 @@ ele@harriet:/SAN/MinION/Strongyles/
 seqret -sequence All_STR.fastq -outseq All_STR.fasta
 ```
 
+Now we can check how much was sequenced:
+```
+grep -v ">" All_STR.fasta  | wc
+```
+486127569 bases in 
+
+```
+grep ">" All_STR.fasta  | wc -l
+```
+805799 reads
+
 Sort out the barcodes and trim adapters
 
 ```
@@ -77,13 +88,28 @@ mito genomes.
 
 ```
 ele@harriet:/SAN/MinION/Strongyles/blast2$
-blastn -task blastn -db /SAN/MinION/Strongyles/blast1/AllmitoSeq1.fasta -query \
-../All_STR.fasta -max_target_seqs 5 -max_hsps 1 -evalue 1e-5 -num_threads 10 \
--outfmt 6 -out All_STR_vs_AllmitoSeq1.blt
+blastn -task blastn -db /SAN/MinION/Strongyles/blast1/AllmitoSeq1.fasta -query ../All_STR_chopped.fasta -max_target_seqs 5 -max_hsps 1 -evalue 1e-5 -num_threads 10 -outfmt 6 -out All_STR_chopped_vs_AllmitoSeq1.blt
 ```
 
+Assemble the first marker only set
 
+```
+ele@harriet:/SAN/MinION/Strongyles/
+canu -p StrongylesMito1Canu -d StrongylesMito1Canu -nanopore-raw \
+AllmitoSeq1.fasta genomeSize=120k corOutCoverage=10000 \
+corMhapSensitivity=high corMinCoverage=0 redMemory=32 oeaMemory=32 \ 
+batMemory=200
+```
 
+Assemble the second set (combinded marker and marker read hits)
+
+```
+ele@harriet:/SAN/MinION/Strongyles/
+ canu -p StrongylesMito2Canu -d StrongylesMito2Canu -nanopore-raw
+ AllmitoSeq2.fasta genomeSize=420k corOutCoverage=10000
+ corMhapSensitivity=high corMinCoverage=0 redMemory=32 oeaMemory=32
+ batMemory=200
+```
 
 
 
